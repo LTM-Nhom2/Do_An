@@ -155,10 +155,27 @@ namespace Client
         {
           
         }
-       
+        string str;
+        string[] a_str;
+        int recv;
+        bdata bb = new bdata();
         private void LangNgheServer()
         {
-           
+            while (true)
+            {
+                try
+                {
+                    recv = client.Receive(bb.data); // recv chứa data từ client được gửi từ client khác 
+                    str = Encoding.Unicode.GetString(bb.data, 0, recv);
+                    a_str = str.Split('|');
+                    LangNgheServer2(a_str[0], str);
+                }
+                catch
+                {
+                    AppendTextThongBao("Mất Kết Nối Tới Máy Chủ");
+                    break;
+                }
+            }
         }
         private void LangNgheServer2(string s,string str)
         {
@@ -223,8 +240,12 @@ namespace Client
         }
         private void chat(string str)
         {
-           
-            
+            rtbcontentchat.SelectionColor = Color.Blue;
+            rtbcontentchat.AppendText("\n" + "[PHÒNG] " + a_str[1] + ": ");
+            rtbcontentchat.SelectionColor = Color.Green;
+            rtbcontentchat.AppendText(a_str[2]);
+            rtbcontentchat.ScrollToCaret();
+
         }
         private void AppendTextThongBao(string thongbao)
         {
