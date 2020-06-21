@@ -28,7 +28,7 @@ namespace Server
         Thread thclient;
         private class bdata
         {
-          
+            public byte[] data = new byte[1024];
         }
       
         
@@ -39,6 +39,9 @@ namespace Server
         }
         private void AppendTextThongBao(string s)
         {
+            richTextBox1.SelectionColor = Color.Red;
+            richTextBox1.AppendText(s);
+            richTextBox1.ScrollToCaret();
         }
         private void LangNgheClient()
         {
@@ -87,34 +90,116 @@ namespace Server
         }
         private void thoatphonggame(string str,byte[] data,Player ple)
         {
-            
-
+            a_str = str.Split(',');
+            if (int.Parse(a_str[1]) == 2)
+            {
+                if (ple.room.siso == 2)
+                {
+                    Room r = ple.room;
+                    data = Encoding.Unicode.GetBytes("BANLACHUPHONG|," + "Người Chơi " + r.plnguoichoi1.name + " Đã thoát,");
+                    r.plnguoichoi2.socket.Send(data, data.Length, SocketFlags.None);
+                    r.plnguoichoi1 = r.plnguoichoi2;
+                    r.plnguoichoi2 = null;
+                    r.siso = 1;
+                    ple.room.plnguoichoi1.room = r;
+                }
+                else
+                {
+                    phong.Remove(ple.room);
+                    ple.room = null;
+                }
+            }
+            else
+            {
+                if (ple.room.siso == 2)
+                {
+                    Room r = ple.room;
+                    data = Encoding.Unicode.GetBytes("BANLACHUPHONG|," + "Người Chơi " + r.plnguoichoi2.name + " Đã thoát,");
+                    r.plnguoichoi1.socket.Send(data, data.Length, SocketFlags.None);
+                    r.siso = 1;
+                    r.plnguoichoi2 = null;
+                    r.plnguoichoi1.room = r;
+                }
+                else
+                {
+                    phong.Remove(ple.room);
+                    ple.room = null;
+                }
+            }
         }
         private void vaophong(string str,Player ple)
         {
-         
+            a_str = str.Split(',');
+            int idphong = int.Parse(a_str[1]);
+            Player plr = timphong(idphong);
+            bdata b = new bdata();
+            Room r = plr.room;
+            if (r.siso == 1)
+            {
+                r.siso = 2;
+                r.plnguoichoi2 = ple;
+                ple.room = r;
+                plr.room = r;
+                b.data = Encoding.Unicode.GetBytes("NGUOICHOIMOIVAOPHONG|," + r.plnguoichoi2.name + ",");
+                plr.socket.Send(b.data, b.data.Length, SocketFlags.None);
+            }
+            else
+            {
+                b.data = Encoding.Unicode.GetBytes("PHONGDADAY|,");
+                ple.socket.Send(b.data, b.data.Length, SocketFlags.None);
+            }
         }
         private Player timphong(int idphong)
         {
-           
+            foreach (Player plr in player)
+            {
+                if (plr.room.sophong == idphong)
+                {
+                    return plr;
+                }
+            }
+            return null;
         }
         private void laydanhsachphong(Player ply)
         {
+            if (phong.Count > 0)
+            {
+                byte[] data = new byte[1024];
+                string danhsachphong = "DANHSACHPHONGGAME|,";
+                foreach (Room r in phong)
+                {
+                    danhsachphong += r.sophong + "\t(" + r.siso + "/2),";
+                }
+                data = Encoding.Unicode.GetBytes(danhsachphong);
+                ply.socket.Send(data, data.Length, SocketFlags.None);
+            }
         }
         private void layidphong(Player ple)
         {
+            bdata b = new bdata();
+            b.data = Encoding.Unicode.GetBytes("IDPHONGGAME|," + ple.room.sophong + ",");
+            ple.socket.Send(b.data, b.data.Length, SocketFlags.None);
         }
         private void taophongmoi(string str, Player ple)
         {
-           
+            Room r = new Room();
+            r.sophong = phong.Count + 1;
+            r.siso = 1;
+            r.plnguoichoi1 = ple;
+            phong.Add(r);
+            ple.room = r;
+
         }
         private void setnameclient(string str,Player ple)
         {
-            
+            a_str = str.Split(',');
+            ple.name = a_str[1];
         }
         private void Winner(string str, byte[] data,Player ple)
         {
-            
+            a_str = str.Split(',');
+
+            SendAClient((int.Parse(a_str[1]) == 2) ? ple.room.plnguoichoi2.socket : ple.room.plnguoichoi1.socket, data);
         }
         private void chatphong(byte[] data, Player ple)
         {
@@ -150,7 +235,17 @@ namespace Server
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+            try
+            {
+                button1.Visible = true;
+                button3.Visible = false;
+
+                server.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
