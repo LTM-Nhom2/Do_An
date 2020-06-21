@@ -34,7 +34,27 @@ namespace Server
         
         private void button1_Click(object sender, EventArgs e) // mở server để lắng nghe CLient
         {
-           
+            try
+            {
+                ipe = new IPEndPoint(IPAddress.Any, 9124);
+                server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
+                server.Bind(ipe);
+                server.Listen(10);
+
+                Thread thserver = new Thread(new ThreadStart(LangNgheClient));
+                thserver.IsBackground = true;
+                thserver.Start();
+
+                button1.Visible = false;
+                button3.Visible = true;
+
+                AppendTextThongBao("Sẵn Sàng Lằng Nghe Kết Nối Từ Client");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
 
         }
         private void AppendTextThongBao(string s)
@@ -141,6 +161,24 @@ namespace Server
                 case "THOATKHOIPHONGGAME":
                     thoatphonggame(str, data, ple);
                     break;
+                case "LAYDANHSACHPLAYER":
+                    laydanhsachplayer(ple);
+                    break;
+
+            }
+        }
+        private void laydanhsachplayer(Player ply)
+        {
+            //if (phong.Count > 0)
+            {
+                byte[] data = new byte[1024];
+                string danhsachplayer = "DANHSACHPLAYER|,";
+                foreach (Player p in player)
+                {
+                    danhsachplayer += p.room + "\t(" + p.name + "/2),";
+                }
+                data = Encoding.Unicode.GetBytes(danhsachplayer);
+                ply.socket.Send(data, data.Length, SocketFlags.None);
             }
         }
         private void thoatphonggame(string str,byte[] data,Player ple)

@@ -224,10 +224,18 @@ namespace Client
                 case "DANHSACHPHONGGAME":
                     danhsachphonggame(str);
                     break;
-                //case "DANHSACHPLAYER":
-                //    danhsachplayer(str);
-                //    break;
+                case "DANHSACHPLAYER":
+                 danhsachplayer(str);
+                    break;
 
+            }
+        }
+        private void danhsachplayer(string str)
+        {
+            a_str = str.Split(',');
+            for (int i = 1; i < a_str.Length - 1; i++)
+            {
+                listBox1.Items.Add("Player " + a_str[i]);
             }
         }
         private void danhsachphonggame(string str)
@@ -360,6 +368,12 @@ namespace Client
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+        private void laydanhsachplayer()
+        {
+            bdata b = new bdata();
+            b.data = Encoding.Unicode.GetBytes("LAYDANHSACHPLAYER|,");
+            client.Send(b.data, b.data.Length, SocketFlags.None);
         }
 
         private void ltbdanhsachphonggame_SelectedIndexChanged(object sender, EventArgs e)

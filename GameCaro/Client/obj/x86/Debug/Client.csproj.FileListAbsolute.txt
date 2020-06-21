@@ -53,3 +53,15 @@ C:\Users\Minh Hieu\Downloads\caro new\Game Caro\Client\obj\x86\Debug\Client.exe
 C:\Users\Minh Hieu\Downloads\caro new\Game Caro\Client\obj\x86\Debug\Client.pdb
 C:\Users\Minh Hieu\Downloads\caro new\Game Caro\Client\bin\Debug\Client.exe
 C:\Users\Minh Hieu\Downloads\caro new\Game Caro\Client\bin\Debug\Client.pdb
+F:\DA LTM\GameCaro\Client\bin\Debug\Client.exe
+F:\DA LTM\GameCaro\Client\bin\Debug\Client.pdb
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.csprojAssemblyReference.cache
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.FrmGame.resources
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.FrmLogin.resources
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.MainMenu.resources
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.Mode.resources
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.Properties.Resources.resources
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.csproj.GenerateResource.cache
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.csproj.CoreCompileInputs.cache
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.exe
+F:\DA LTM\GameCaro\Client\obj\x86\Debug\Client.pdb

@@ -30,3 +30,15 @@ D:\UIT\CAC_MON_HOC_O_UIT\Năm 2\Kỳ 2 Năm 2\Lập Trình Mạng Căn Bản\Đ�
 D:\UIT\CAC_MON_HOC_O_UIT\Năm 2\Kỳ 2 Năm 2\Lập Trình Mạng Căn Bản\Đồ Án\Lần 2\Game Caro\Server\bin\Debug\General.dll
 D:\UIT\CAC_MON_HOC_O_UIT\Năm 2\Kỳ 2 Năm 2\Lập Trình Mạng Căn Bản\Đồ Án\Lần 2\Game Caro\Server\bin\Debug\General.pdb
 D:\UIT\CAC_MON_HOC_O_UIT\Năm 2\Kỳ 2 Năm 2\Lập Trình Mạng Căn Bản\Đồ Án\Lần 2\Game Caro\Server\obj\x86\Debug\Server.csproj.CopyComplete
+F:\DA LTM\GameCaro\Server\bin\Debug\Server.exe
+F:\DA LTM\GameCaro\Server\bin\Debug\Server.pdb
+F:\DA LTM\GameCaro\Server\bin\Debug\General.dll
+F:\DA LTM\GameCaro\Server\bin\Debug\General.pdb
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.csprojAssemblyReference.cache
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.Form1.resources
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.Properties.Resources.resources
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.csproj.GenerateResource.cache
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.csproj.CoreCompileInputs.cache
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.csproj.CopyComplete
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.exe
+F:\DA LTM\GameCaro\Server\obj\x86\Debug\Server.pdb
