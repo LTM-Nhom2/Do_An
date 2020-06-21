@@ -82,11 +82,66 @@ namespace Server
 
         private void LangNgheClientMoi(object obj)
         {
-           
+            Player ple = (Player)obj;
+            while (true)
+            {
+                try
+                {
+                    recv = ple.socket.Receive(bb.data);
+                    str = Encoding.Unicode.GetString(bb.data, 0, recv);
+                    a_str = str.Split('|');
+                    bdata dd = new bdata();
+                    dd.data = Encoding.Unicode.GetBytes(str);
+                    LangNgheClient2(a_str[0], dd.data, ple);
+                }
+                catch
+                {
+
+                    richTextBox1.SelectionColor = Color.Blue;
+                    richTextBox1.AppendText("\n" + ple.socket.RemoteEndPoint.ToString() + " Đã Đóng Kết Nối");
+                    richTextBox1.ScrollToCaret();
+
+                    player.Remove(ple);
+
+                    break;
+                }
+            }
         }
         private void LangNgheClient2(string s, byte[] data, Player ple)
         {
-          
+            switch (s)
+            {
+                case "DANHCARO":
+                    DanhCaRo(str, data, ple);
+                    break;
+                case "CHAT":
+                    SendAllClient(data);
+                    break;
+                case "CHATPHONG":
+                    chatphong(data, ple);
+                    break;
+                case "WINNER":
+                    Winner(str, data, ple);
+                    break;
+                case "NAMECLIENT":
+                    setnameclient(str, ple);
+                    break;
+                case "TAOPHONGMOI":
+                    taophongmoi(str, ple);
+                    break;
+                case "LAYIDPHONG":
+                    layidphong(ple);
+                    break;
+                case "LAYDANHSACHPHONG":
+                    laydanhsachphong(ple);
+                    break;
+                case "VAOPHONGGAME":
+                    vaophong(str, ple);
+                    break;
+                case "THOATKHOIPHONGGAME":
+                    thoatphonggame(str, data, ple);
+                    break;
+            }
         }
         private void thoatphonggame(string str,byte[] data,Player ple)
         {

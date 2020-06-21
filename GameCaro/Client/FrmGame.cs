@@ -141,19 +141,34 @@ namespace Client
         }
         public void taophongmoi()
         {
-           
+            bdata b = new bdata();
+            b.data = Encoding.Unicode.GetBytes("TAOPHONGMOI|,");
+            client.Send(b.data, b.data.Length, SocketFlags.None);
+            rtbcontentchat.AppendText("Tạo Phòng Thành Công");
+            if (lbidphong.Text == "0")
+                layidphonggame();
         }
         private void layidphonggame()
         {
-           
+            bdata b = new bdata();
+            b.data = Encoding.Unicode.GetBytes("LAYIDPHONG|,");
+            client.Send(b.data, b.data.Length, SocketFlags.None);
+            rtbcontentchat.AppendText("Vào Phòng Thành Công");
         }
         private void laydanhsachphonggame()
         {
-            
+            bdata b = new bdata();
+            b.data = Encoding.Unicode.GetBytes("LAYDANHSACHPHONG|,");
+            client.Send(b.data, b.data.Length, SocketFlags.None);
         }
         private void FrmGame_Load(object sender, EventArgs e)
         {
-          
+            laydanhsachphonggame();
+            //laydanhsachplayer();
+            //btRule.Visible = false;
+            Thread thclient = new Thread(new ThreadStart(LangNgheServer));
+            thclient.IsBackground = true;
+            thclient.Start();
         }
         string str;
         string[] a_str;
@@ -209,16 +224,25 @@ namespace Client
                 case "DANHSACHPHONGGAME":
                     danhsachphonggame(str);
                     break;
+                //case "DANHSACHPLAYER":
+                //    danhsachplayer(str);
+                //    break;
 
             }
         }
         private void danhsachphonggame(string str)
         {
-           
+            a_str = str.Split(',');
+            for (int i = 1; i < a_str.Length - 1; i++)
+            {
+                ltbdanhsachphonggame.Items.Add("Phòng " + a_str[i]);
+            }
         }
         private void conguoichoivaophong()
         {
-            
+            DuocDanh = true;
+            a_str = str.Split(',');
+            rtbcontentchat.AppendText("\n" + a_str[1] + " đã vào phòng");
         }
         private void Idphong(string str)
         {
@@ -226,10 +250,18 @@ namespace Client
         }
         private void Winner(string str)
         {
-          
+            a_str = str.Split(',');
+            VeQuanCoCaro(int.Parse(a_str[2]), int.Parse(a_str[3]), int.Parse(a_str[1]));
+            KiemTraThangThua(int.Parse(a_str[2]), int.Parse(a_str[3]));
+            rect = new Rectangle(0, 10, 413, 281);
+            Graphics g = panel1.CreateGraphics();
+            g.DrawImage(Thua, rect);
         }
         private void DanhCaRo(string str)
         {
+            a_str = str.Split(',');
+            VeQuanCoCaro(int.Parse(a_str[1]), int.Parse(a_str[2]), int.Parse(a_str[3]));
+            DuocDanh = true;
         }
         private void PhanNguoiChoi(string str)
         {
