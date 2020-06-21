@@ -17,8 +17,15 @@ namespace Server
     {
         public Form1()
         {
-           
+            CheckForIllegalCrossThreadCalls = false;
+            InitializeComponent();
         }
+        Socket server, skclient;
+        IPEndPoint ipe;
+        List<Player> player = new List<Player>();
+
+        List<Room> phong = new List<Room>();
+        Thread thclient;
         private class bdata
         {
           
@@ -36,12 +43,40 @@ namespace Server
         private void LangNgheClient()
         {
 
-            
-           
-        }
-       
 
-     
+            while (true)
+            {
+                try
+                {
+
+                    skclient = server.Accept();
+                    Player pl = new Player();
+                    pl.socket = skclient;
+                    pl.ipaddress = pl.socket.RemoteEndPoint.ToString();
+                    player.Add(pl);
+
+                    thclient = new Thread(LangNgheClientMoi);
+                    thclient.IsBackground = true;
+                    thclient.Start(pl);
+
+                    richTextBox1.SelectionColor = Color.Blue;
+                    richTextBox1.AppendText("\nChấp Nhận kết nối từ " + pl.socket.RemoteEndPoint.ToString());
+                    richTextBox1.ScrollToCaret();
+                }
+                catch
+                {
+
+                }
+            }
+        }
+        string str;
+        string[] a_str;
+        int recv;
+
+        bdata bb = new bdata();
+
+
+
         private void LangNgheClientMoi(object obj)
         {
            
@@ -83,18 +118,29 @@ namespace Server
         }
         private void chatphong(byte[] data, Player ple)
         {
-           
+            if (ple.room.siso == 1)
+                SendAClient(ple.socket, data);
+            else
+            {
+                SendAClient(ple.room.plnguoichoi1.socket, data);
+                SendAClient(ple.room.plnguoichoi2.socket, data);
+            }
         }
-        private void DanhCaRo(string str,byte[] data,Player ple)
+        private void DanhCaRo(string str, byte[] data, Player ple)
         {
-            
+            a_str = str.Split(',');
+            SendAClient((int.Parse(a_str[3]) == 2) ? ple.room.plnguoichoi2.socket : ple.room.plnguoichoi1.socket, data);
         }
         private void SendAClient(Socket sk, byte[] data)
         {
+            sk.Send(data, data.Length, SocketFlags.None);
         }
         private void SendAllClient(byte[] data)
         {
-           
+            foreach (Player pl in player)
+            {
+                pl.socket.Send(data, data.Length, SocketFlags.None);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
